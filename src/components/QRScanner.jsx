@@ -13,6 +13,13 @@ export default function QRScanner({ onScan, onClose, isActive }) {
           fps: 10,
           qrbox: { width: 250, height: 250 },
           aspectRatio: 1.0,
+          supportedScanTypes: [Html5QrcodeScanner.SCAN_TYPE_CAMERA],
+          experimentalFeatures: {
+            useBarCodeDetectorIfSupported: true,
+          },
+          videoConstraints: {
+            facingMode: "environment", // ✅ Use back camera
+          },
         },
         false
       );
@@ -27,7 +34,7 @@ export default function QRScanner({ onScan, onClose, isActive }) {
           }
         },
         (error) => {
-          // Silent error handling for scanning attempts
+          // Silent error handling
         }
       );
 
