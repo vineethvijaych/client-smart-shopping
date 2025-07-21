@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5QrcodeScanner, Html5QrcodeScanType } from "html5-qrcode";
 
 export default function QRScanner({ onScan, onClose, isActive }) {
   const scannerRef = useRef(null);
@@ -13,12 +13,12 @@ export default function QRScanner({ onScan, onClose, isActive }) {
           fps: 10,
           qrbox: { width: 250, height: 250 },
           aspectRatio: 1.0,
-          supportedScanTypes: [Html5QrcodeScanner.SCAN_TYPE_CAMERA],
+          supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA], // ✅ FIXED
           experimentalFeatures: {
             useBarCodeDetectorIfSupported: true,
           },
           videoConstraints: {
-            facingMode: "environment", // ✅ Use back camera
+            facingMode: "environment", // ✅ Force back camera
           },
         },
         false
