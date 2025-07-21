@@ -13,12 +13,12 @@ export default function QRScanner({ onScan, onClose, isActive }) {
           fps: 10,
           qrbox: { width: 250, height: 250 },
           aspectRatio: 1.0,
-          supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA], // ✅ FIXED
+          supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
           experimentalFeatures: {
             useBarCodeDetectorIfSupported: true,
           },
           videoConstraints: {
-            facingMode: "environment", // ✅ Force back camera
+            facingMode: "environment",
           },
         },
         false
@@ -34,7 +34,7 @@ export default function QRScanner({ onScan, onClose, isActive }) {
           }
         },
         (error) => {
-          // Silent error handling
+          // silent
         }
       );
 
@@ -60,20 +60,29 @@ export default function QRScanner({ onScan, onClose, isActive }) {
   if (!isActive) return null;
 
   return (
-    <div className="scan-overlay">
+    <div className="scan-overlay fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-center px-4">
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-white mb-2">Scan QR Code</h2>
         <p className="text-gray-300">Position the QR code within the frame</p>
       </div>
 
-      <div className="scan-area">
-        <div className="scan-corners"></div>
-        <div className="scan-corners"></div>
-        <div className="scan-corners"></div>
-        <div className="scan-corners"></div>
-        <div className="scan-line"></div>
+      <div className="relative w-full max-w-xs aspect-square overflow-hidden">
+        {/* Actual camera feed */}
+        <div
+          id="qr-reader"
+          className="absolute top-0 left-0 w-full h-full z-0 rounded-lg"
+        />
 
-        <div id="qr-reader" className="w-full h-full"></div>
+        {/* Overlay frame */}
+        <div className="absolute top-0 left-0 w-full h-full z-10 pointer-events-none">
+          <div className="scan-area w-full h-full relative">
+            <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-emerald-500"></div>
+            <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-emerald-500"></div>
+            <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-emerald-500"></div>
+            <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-emerald-500"></div>
+            <div className="scan-line absolute top-1/2 left-0 w-full h-0.5 bg-emerald-400 animate-pulse"></div>
+          </div>
+        </div>
       </div>
 
       <button
