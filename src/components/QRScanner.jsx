@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Html5QrcodeScanner, Html5QrcodeScanType } from "html5-qrcode";
 
 export default function QRScanner({ onScan, onClose, isActive }) {
-  const scannerRef = useRef(null);
   const [scanner, setScanner] = useState(null);
 
   useEffect(() => {
@@ -34,7 +33,7 @@ export default function QRScanner({ onScan, onClose, isActive }) {
           }
         },
         (error) => {
-          // silent
+          // Silent scan errors
         }
       );
 
@@ -60,27 +59,25 @@ export default function QRScanner({ onScan, onClose, isActive }) {
   if (!isActive) return null;
 
   return (
-    <div className="scan-overlay fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-center px-4">
+    <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-center px-4">
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-white mb-2">Scan QR Code</h2>
         <p className="text-gray-300">Position the QR code within the frame</p>
       </div>
 
-      <div className="relative w-full max-w-xs aspect-square overflow-hidden">
-        {/* Actual camera feed */}
-        <div
-          id="qr-reader"
-          className="absolute top-0 left-0 w-full h-full z-0 rounded-lg"
-        />
+      {/* Scanner container with camera preview */}
+      <div className="relative w-full max-w-xs aspect-square rounded-lg overflow-hidden">
+        {/* Camera feed */}
+        <div id="qr-reader" className="absolute inset-0 w-full h-full z-0" />
 
-        {/* Overlay frame */}
-        <div className="absolute top-0 left-0 w-full h-full z-10 pointer-events-none">
-          <div className="scan-area w-full h-full relative">
+        {/* Overlay scanner frame */}
+        <div className="absolute inset-0 z-10 pointer-events-none">
+          <div className="relative w-full h-full">
             <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-emerald-500"></div>
             <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-emerald-500"></div>
             <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-emerald-500"></div>
             <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-emerald-500"></div>
-            <div className="scan-line absolute top-1/2 left-0 w-full h-0.5 bg-emerald-400 animate-pulse"></div>
+            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-emerald-400 animate-pulse"></div>
           </div>
         </div>
       </div>
